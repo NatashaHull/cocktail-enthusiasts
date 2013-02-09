@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  topic_id: MyString
+  integer: MyString
+
+two:
+  topic_id: MyString
+  integer: MyString
