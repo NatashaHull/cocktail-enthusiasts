@@ -21,3 +21,4 @@ class VotesController < ApplicationController
     redirect_to(topics_path)
   end
 end
+#git-test
