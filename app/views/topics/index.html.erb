@@ -15,10 +15,12 @@
     <td><%= link_to topic.title, topic %></td>
     <td><%= topic.username%></td>
     <td><%= pluralize(topic.votes.length, "vote") %></td>
-    <% if (topic.votes & User.find(session[:user_id]).votes).empty? %>
-      <td><%= button_to '+1', votes_path(topic_id: topic.id), method: :post %></td>
-    <% else %>
-      <td><%= button_to '-1', subtract_votes_path(topic_id: topic.id), method: :post %></td>
+    <% if session[:user_id] %>
+      <% if (topic.votes & User.find(session[:user_id]).votes).empty? %>
+        <td><%= button_to '+1', votes_path(topic_id: topic.id), method: :post %></td>
+      <% else %>
+        <td><%= button_to '-1', subtract_votes_path(topic_id: topic.id), method: :post %></td>
+      <% end %>
     <% end %>
     <td class="last"><%= link_to 'Delete', topic, confirm: 'Are you seriously gonna delete this awesome recipe?', method: :delete %></td>
   </tr>
