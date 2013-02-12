@@ -1,0 +1,8 @@
+<% if session[:user_id] %>
+  <p>Currently logged in as <%= User.find(session[:user_id]).name %></p>
+<% else %>
+  <%= form_tag '/login' do %>
+    <p>Log in as: <%= text_field :name, :name %> <%= submit_tag 'Log in' %></p>
+  <% end %>
+<% end %>
+<hr>

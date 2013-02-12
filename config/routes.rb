@@ -1,4 +1,6 @@
 Suggestotron::Application.routes.draw do
+  resources :users
+
   resources :votes do
     collection do
       post 'subtract'
@@ -8,6 +10,8 @@ Suggestotron::Application.routes.draw do
   resources :topics
 
   root :to => 'topics#index'
+
+  post "login" => 'users#login'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

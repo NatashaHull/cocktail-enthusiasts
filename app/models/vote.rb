@@ -10,6 +10,12 @@
 #
 
 class Vote < ActiveRecord::Base
-  attr_accessible :topic_id, :ip_address
+  attr_accessible :topic_id, :user
+  
   belongs_to :topic
+  belongs_to :user
+  
+  def self.find_by_user(user)
+    where(:user => user)
+  end
 end

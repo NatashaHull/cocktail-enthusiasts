@@ -42,6 +42,9 @@ class TopicsController < ApplicationController
   # POST /topics.json
   def create
     @topic = Topic.new(params[:topic])
+    if session[:user_id]
+      @topic.user = User.find(session[:user_id])
+    end
 
     respond_to do |format|
       if @topic.save

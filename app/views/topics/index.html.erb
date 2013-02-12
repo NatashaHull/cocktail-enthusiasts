@@ -3,6 +3,7 @@
 <table>
   <tr>
     <th>Title</th>
+    <th>User</th>
     <th></th>
     <th></th>
     <th></th>
@@ -12,8 +13,9 @@
 <% @topics.each do |topic| %>
   <tr>
     <td><%= link_to topic.title, topic %></td>
+    <td><%= topic.username%></td>
     <td><%= pluralize(topic.votes.length, "vote") %></td>
-    <% unless topic.votes.find_by_ip_address(request.remote_ip) %>
+    <% if (topic.votes & User.find(session[:user_id]).votes).empty? %>
       <td><%= button_to '+1', votes_path(topic_id: topic.id), method: :post %></td>
     <% else %>
       <td><%= button_to '-1', subtract_votes_path(topic_id: topic.id), method: :post %></td>
