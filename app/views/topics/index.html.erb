@@ -16,7 +16,7 @@
     <td><%= topic.username%></td>
     <td><%= pluralize(topic.votes.length, "vote") %></td>
     <% if session[:user_id] %>
-      <% if (topic.votes & User.find(session[:user_id]).votes).empty? %>
+      <% if topic.votes_by_user_id(session[:user_id]).empty? %>
         <td><%= button_to '+1', votes_path(topic_id: topic.id), method: :post %></td>
       <% else %>
         <td><%= button_to '-1', subtract_votes_path(topic_id: topic.id), method: :post %></td>
