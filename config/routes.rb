@@ -1,7 +1,5 @@
 Suggestotron::Application.routes.draw do
-  resources :users
-
-  resources :votes do
+  resources :votes, :only => [:create] do
     collection do
       post 'subtract'
     end
