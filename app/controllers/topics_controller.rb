@@ -1,4 +1,6 @@
 class TopicsController < ApplicationController
+  before_filter :logged_in_as_author, :only => [:edit, :destroy]
+  
   # GET /topics
   # GET /topics.json
   def index
@@ -82,6 +84,13 @@ class TopicsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to topics_url }
       format.json { head :no_content }
+    end
+  end
+  
+  def logged_in_as_author
+    topic = Topic.find(params[:id])
+    unless topic.logged_in_as_author
+      redirect_to(topics_path)
     end
   end
 end
