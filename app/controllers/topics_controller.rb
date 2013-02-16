@@ -89,7 +89,7 @@ class TopicsController < ApplicationController
   
   def logged_in_as_author
     topic = Topic.find(params[:id])
-    unless topic.logged_in_as_author
+    unless topic.logged_in_as_author(session[:user_id])
       redirect_to(topics_path)
     end
   end

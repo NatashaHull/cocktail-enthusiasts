@@ -30,8 +30,8 @@ class Topic < ActiveRecord::Base
     votes.where(:user_id => user_id)
   end
   
-  def logged_in_as_author
-    current_user = User.find(session[:user_id]) rescue nil
+  def logged_in_as_author (user_id)
+    current_user = User.find(user_id) rescue nil
     user == nil or user == current_user
   end
 end
