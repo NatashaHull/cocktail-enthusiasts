@@ -13,7 +13,7 @@
     <td><%= comment.description %></td>
     <td><%= comment.username%></td>
     <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-    <% delete_msg = comment.logged_in_as_author(session[:user_id]) ? 'Is your comment really that lame?' : "Nice try! You can't delete other peoples' posts." %>
+    <% delete_msg = comment.logged_in_as_author(session[:user_id]) ? 'Is your comment really that lame?' : "Nice try! You can't delete other peoples' comments." %>
     <td class="last"><%= link_to 'Delete', comment, confirm: delete_msg, method: :delete %></td>
   </tr>
 <% end %>
@@ -21,4 +21,5 @@
 
 <br />
 
+<%= link_to 'Topics', topics_path %>
 <%= link_to 'New Comment', new_comment_topic_path(@topic) %>
