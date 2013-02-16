@@ -1,18 +1,25 @@
 Suggestotron::Application.routes.draw do
+  resources :comments
+
   resources :votes, :only => [:create] do
     collection do
       post 'subtract'
     end
   end
 
-  resources :topics
+  resources :topics do
+    member do
+      get 'view_comments'
+      get 'new_comment'
+    end
+  end
 
   root :to => 'topics#index'
 
   post "login" => 'users#login'
   
   post "logout" => 'users#logout'
-
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

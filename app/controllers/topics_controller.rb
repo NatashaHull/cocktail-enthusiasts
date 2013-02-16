@@ -87,6 +87,20 @@ class TopicsController < ApplicationController
     end
   end
   
+  def view_comments
+    @topic = Topic.find(params[:id])
+    @comments = @topic.comments
+    
+    render 'comments/index'
+  end
+  
+  def new_comment
+    @topic = Topic.find(params[:id])
+    @comment = @topic.comments.build
+    
+    render 'comments/new'
+  end
+  
   def logged_in_as_author
     topic = Topic.find(params[:id])
     unless topic.logged_in_as_author(session[:user_id])

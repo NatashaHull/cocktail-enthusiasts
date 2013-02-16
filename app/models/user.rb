@@ -9,10 +9,11 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :name, :topics, :votes
+  attr_accessible :name, :topics, :votes, :comments
   
   has_many :topics
   has_many :votes
+  has_many :comments
   
   validates_presence_of :name
 end

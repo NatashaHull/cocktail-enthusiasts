@@ -1,18 +1,18 @@
 # == Schema Information
 #
-# Table name: topics
+# Table name: comments
 #
 #  id          :integer          not null, primary key
-#  title       :string(255)
 #  description :text
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  topic_id    :integer
 #  user_id     :integer
 #
 
 require 'test_helper'
 
-class TopicTest < ActiveSupport::TestCase
+class CommentTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
