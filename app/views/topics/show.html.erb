@@ -11,8 +11,30 @@
 </p>
 
 <p>
-  <b>Description:</b>
+  <b>Description</b>
   <%= simple_format @topic.description %>
+</p>
+
+<p>
+  <b>Add Comment</b>
+  <%= render 'comment_form' %>
+</p>
+
+<p>
+  <b>Comments</b>
+  <% comments = @topic.comments %>
+  <table>
+    <tr>
+      <th></th>
+      <th>User</th>
+    </tr>
+  <% comments.each do |comment| %>
+    <tr>
+      <td><%= simple_format comment.description %></td>
+      <td><%= comment.username %></td>
+    </tr>
+  <% end %>
+  </table>
 </p>
 
 

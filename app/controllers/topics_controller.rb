@@ -17,6 +17,7 @@ class TopicsController < ApplicationController
   # GET /topics/1.json
   def show
     @topic = Topic.find(params[:id])
+    @comment = @topic.comments.build
 
     respond_to do |format|
       format.html # show.html.erb
@@ -99,6 +100,21 @@ class TopicsController < ApplicationController
     @comment = @topic.comments.build
     
     render 'comments/new'
+  end
+  
+  def create_comment
+     @comment = Comment.new(params[:comment])
+    @topic = @comment.topic
+
+    respond_to do |format|
+      if @comment.save
+        format.html { redirect_to @topic, notice: 'Comment was successfully created.' }
+        format.json { render json: @comment, status: :created, location: @comment }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @comment.errors, status: :unprocessable_entity }
+      end
+    end
   end
   
   def logged_in_as_author

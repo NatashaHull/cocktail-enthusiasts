@@ -8,6 +8,7 @@
     <th></th>
     <th></th>
     <th></th>
+    <th></th>
   </tr>
 
 <% @topics.each do |topic| %>
@@ -22,6 +23,7 @@
         <td><%= button_to '-1', subtract_votes_path(topic_id: topic.id), method: :post %></td>
       <% end %>
     <% end %>
+    <td><%= link_to pluralize(topic.comments.count, "comment"), view_comments_topic_path(topic) %></td>
     <% delete_msg = topic.logged_in_as_author(session[:user_id]) ? 'Are you seriously gonna delete this awesome recipe?' : "Nice try! You can't delete other peoples' posts." %>
     <td class="last"><%= link_to 'Delete', topic, confirm: delete_msg, method: :delete %></td>
   </tr>
