@@ -25,20 +25,22 @@
 <hr>
 
 <p>
-  <b>Comments</b>
   <% comments = @topic.comments %>
-  <table>
-    <tr>
-      <th class="commentDescriptionCol"></th>
-      <th>User</th>
-    </tr>
-  <% comments.each do |comment| %>
-    <tr>
-      <td><%= simple_format comment.description %></td>
-      <td><%= comment.username %></td>
-    </tr>
+  <% if comments.count>0 %>
+    <b>Comments</b>
+    <table border=1 class="commentTable1">
+      <tr>
+        <th class="commentDescriptionCol">Comment</th>
+        <th>User</th>
+      </tr>
+    <% comments.each do |comment| %>
+      <tr>
+        <td><%= simple_format comment.description %></td>
+        <td><%= comment.username %></td>
+      </tr>
+    <% end %>
+    </table>
   <% end %>
-  </table>
 </p>
 
 
