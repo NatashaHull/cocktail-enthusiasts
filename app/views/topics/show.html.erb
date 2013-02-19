@@ -15,17 +15,21 @@
   <%= simple_format @topic.description %>
 </p>
 
+<hr>
+
 <p>
   <b>Add Comment</b>
   <%= render 'comment_form' %>
 </p>
+
+<hr>
 
 <p>
   <b>Comments</b>
   <% comments = @topic.comments %>
   <table>
     <tr>
-      <th></th>
+      <th class="commentDescriptionCol"></th>
       <th>User</th>
     </tr>
   <% comments.each do |comment| %>
@@ -39,5 +43,5 @@
 
 
 <%= link_to 'Edit', edit_topic_path(@topic) %> |
-<%= link_to 'Back', topics_path %>
+<%= link_to 'Back', topics_path %> |
 <%= link_to 'Comments', view_comments_topic_path(@topic)%>

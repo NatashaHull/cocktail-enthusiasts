@@ -13,7 +13,9 @@
   <tr>
     <td><%= comment.description %></td>
     <td><%= comment.username%></td>
-    <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
+    <td><% if comment.logged_in_as_author(session[:user_id])%>
+      <%= link_to 'Edit', edit_comment_path(comment) %>
+    <% end %></td>
     <% delete_msg = comment.logged_in_as_author(session[:user_id]) ? 'Is your comment really that lame?' : "Nice try! You can't delete other peoples' comments." %>
     <td class="last"><%= link_to 'Delete', comment, confirm: delete_msg, method: :delete %></td>
   </tr>
