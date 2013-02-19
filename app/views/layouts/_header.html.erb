@@ -1,7 +1,9 @@
 <% if session[:user_id] %>
-  <p>Currently logged in as <%= User.find(session[:user_id]).name %></p>
   <%= form_tag '/logout' do %>
-    <p><%= submit_tag 'Log out' %></p>
+    <p>
+      Currently logged in as <b><%= User.find(session[:user_id]).name %></b>
+      <%= submit_tag 'Log out' %>
+    </p>
   <% end %>
 <% else %>
   <%= form_tag '/login' do %>
