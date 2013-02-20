@@ -16,6 +16,7 @@ class CommentsController < ApplicationController
   # GET /comments/1.json
   def show
     @comment = Comment.find(params[:id])
+    @topic = @comment.topic
 
     respond_to do |format|
       format.html # show.html.erb
@@ -27,6 +28,7 @@ class CommentsController < ApplicationController
   # GET /comments/new.json
   def new
     @comment = Comment.new
+    @topic = @comment.topic
 
     respond_to do |format|
       format.html # new.html.erb
@@ -37,6 +39,7 @@ class CommentsController < ApplicationController
   # GET /comments/1/edit
   def edit
     @comment = Comment.find(params[:id])
+    @topic = @comment.topic
   end
 
   # POST /comments
