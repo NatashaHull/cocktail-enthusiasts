@@ -11,8 +11,36 @@
 </p>
 
 <p>
-  <b>Description:</b>
+  <b>Description</b>
   <%= simple_format @topic.description %>
+</p>
+
+<hr>
+
+<p>
+  <b>Add Comment</b>
+  <%= render 'comment_form' %>
+</p>
+
+<hr>
+
+<p>
+  <% comments = @topic.comments %>
+  <% if comments.count>0 %>
+    <b>Comments</b>
+    <table border=1 class="commentTable1">
+      <tr>
+        <th class="commentDescriptionCol">Comment</th>
+        <th>User</th>
+      </tr>
+    <% comments.each do |comment| %>
+      <tr>
+        <td><%= simple_format comment.description %></td>
+        <td><%= comment.username %></td>
+      </tr>
+    <% end %>
+    </table>
+  <% end %>
 </p>
 
 <%= link_to 'Edit', edit_topic_path(@topic) %> |

@@ -11,6 +11,7 @@ Suggestotron::Application.routes.draw do
     member do
       get 'view_comments'
       get 'new_comment'
+      post 'create_comment'
     end
   end
 
