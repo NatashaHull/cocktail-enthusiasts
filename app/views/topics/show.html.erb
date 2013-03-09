@@ -1,17 +1,17 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Title:</b>
-  <%= @topic.title %>
+  <strong><b>Cocktail:</b>
+  <span style="color:turquoise;"><%= @topic.title %></span></strong>
 </p>
 
 <p>
-  <b>Username:</b>
+  <b>Creator:</b>
   <%= @topic.username %>
 </p>
 
 <p>
-  <b>Description</b>
+  <b><em>Recipe</em></b>
   <%= simple_format @topic.description %>
 </p>
 
