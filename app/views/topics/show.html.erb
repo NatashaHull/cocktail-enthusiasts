@@ -1,3 +1,5 @@
+<title><%= @topic.title%></title>
+
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -28,15 +30,15 @@
   <% comments = @topic.comments %>
   <% if comments.count>0 %>
     <b>Comments</b>
-    <table border=1 class="commentTable1">
-      <tr>
-        <th class="commentDescriptionCol">Comment</th>
-        <th>User</th>
+    <table class="commentTable1">
+      <tr style="border-bottom: 1px solid white;">
+        <th class="commentDescriptionCol" style="padding: 5px"><em>Comment</em></th>
+        <th class="commentDescriptionCol2" style="padding: 5px; border-left: 1px solid white;"><em>User</em></th>
       </tr>
     <% comments.each do |comment| %>
       <tr>
-        <td><%= simple_format comment.description %></td>
-        <td><%= comment.username %></td>
+        <td style="padding: 5px;"><%= simple_format comment.description %></td>
+        <td class="commentDescriptionCol2" style="padding: 5px; border-left: 1px solid white"><%= comment.username %></td>
       </tr>
     <% end %>
     </table>

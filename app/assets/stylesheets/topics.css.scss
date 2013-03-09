@@ -2,10 +2,27 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+h1 {
+    color: springgreen;
+}
+
+body {
+    background-color: DarkSlateGray;
+    color: #F5B9F5;
+}
+
+a:link, a:active, a:hover, a:visited {
+    color: #F5B9F5;
+}
+
 .commentDescriptionCol {
     width: 800px;
 }
 
 .commentTable1 {
     border-collapse: collapse;
+}
+
+commentDescriptionCol2 {
+    alignment-adjust: right;
 }
