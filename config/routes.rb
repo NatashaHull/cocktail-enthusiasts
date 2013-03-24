@@ -1,4 +1,6 @@
 Suggestotron::Application.routes.draw do
+  get "site/home"
+
   resources :comments
 
   resources :votes, :only => [:create] do
@@ -15,7 +17,7 @@ Suggestotron::Application.routes.draw do
     end
   end
 
-  root :to => 'topics#index'
+  root :to => 'site#home'
 
   post "login" => 'users#login'
   
