@@ -40,7 +40,9 @@ a:link, a:visited, a:hover, a:active {
     padding: 10px;
     vertical-align: top;
 }
-
+#compareTable td:last-child {
+    border: 0;
+}
 #compareSelectTable {
     margin-left: 30%;
 }
