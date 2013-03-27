@@ -14,7 +14,7 @@
   <tr>
     <td style="padding:5px"><%= comment.description %></td>
     <td style="padding:5px; border-left:1px solid lightgrey;"><%= comment.username%></td>
-    <td style="padding:5px; border-left:1px solid lightgrey;><% if comment.logged_in_as_author(session[:user_id])%>
+    <td style="padding:5px; border-left:1px solid lightgrey;"><% if comment.logged_in_as_author(session[:user_id])%>
       <%= link_to 'Edit', edit_comment_path(comment) %>
     <% end %></td>
     <% delete_msg = comment.logged_in_as_author(session[:user_id]) ? 'Is your comment really that lame?' : "Nice try! You can't delete other peoples' comments." %>
