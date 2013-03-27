@@ -14,11 +14,11 @@
   <tr>
     <td style="padding:5px"><%= comment.description %></td>
     <td style="padding:5px; border-left:1px solid lightgrey;"><%= comment.username%></td>
-    <td><% if comment.logged_in_as_author(session[:user_id])%>
+    <td style="padding:5px; border-left:1px solid lightgrey;><% if comment.logged_in_as_author(session[:user_id])%>
       <%= link_to 'Edit', edit_comment_path(comment) %>
     <% end %></td>
     <% delete_msg = comment.logged_in_as_author(session[:user_id]) ? 'Is your comment really that lame?' : "Nice try! You can't delete other peoples' comments." %>
-    <td class="last" style="padding:5px"><%= link_to 'Delete', comment, confirm: delete_msg, method: :delete %></td>
+    <td style="padding:5px"><%= link_to 'Delete', comment, confirm: delete_msg, method: :delete %></td>
   </tr>
 <% end %>
 </table>
@@ -26,5 +26,5 @@
 <br />
 
 <%= link_to @topic.title, @topic %> |
-<%= link_to 'Topics', topics_path %> |
+<%= link_to 'Cocktails List', topics_path %> |
 <%= link_to 'New Comment', new_comment_topic_path(@topic) %>
