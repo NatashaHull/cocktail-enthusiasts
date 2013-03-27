@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<table id="compareTable">
+  <tr>
+    <% @topics.each do |topic| %>
+      <td style="width: <%= @width_pct %>%;">
+        <p>
+          <strong><b>Cocktail:</b>
+          <span style="color:turquoise;"><%= topic.title %></span></strong>
+        </p>
+        
+        <p>
+          <b>Creator:</b>
+          <%= topic.username %>
+        </p>
+        
+        <p>
+          <b><em>Recipe</em></b>
+          <%= simple_format topic.description %>
+        </p>
+      </td>
+    <% end %>
+  </tr>
+</table>
+
+<%= link_to 'Cocktails List', topics_path %> |
+<%= link_to 'Back', compare_topics_path %>

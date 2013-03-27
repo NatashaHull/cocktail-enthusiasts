@@ -123,4 +123,20 @@ class TopicsController < ApplicationController
       redirect_to(topics_path)
     end
   end
+  
+  def compare
+    @topics = Topic.all
+    @ip = request.remote_ip
+
+    respond_to do |format|
+      format.html # compare.html.erb
+      format.json { render json: @topics }
+    end
+  end
+  
+  def compare_show
+    cocktail_nums = params.select {|k,v| k.include? 'cocktail'}
+    @topics = cocktail_nums.map {|k,v| Topic.find(k.split('.')[1].to_i) }
+    @width_pct = 100. / cocktail_nums.count rescue nil
+  end
 end

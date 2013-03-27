@@ -1,0 +1,34 @@
+<h1 style="text-align: center;">Compare Cocktails</h1>
+
+<%= form_tag(compare_show_topics_path, method: :post) do %>
+  <table id="compareSelectTable">
+    <tr style="padding:5px; border-bottom:1px solid lightgrey;">
+      <th style="padding:5px;"><em>Compare</em></th>
+      <th class="tableBorder"><em>Cocktail</em></th>
+      <th class="tableBorder"><em>Creator</em></th>
+      <th class="tableBorder"><em>Popularity</em></th>
+      <th class="tableBorder"><em>Responses</em></th>
+      <th></th>
+      <th></th>
+    </tr>
+  
+  <% @topics.each do |topic| %>
+    <tr>
+      <td style="padding:5px;"><%= check_box_tag("cocktail.#{topic.id}") %></td>
+      <td class="tableBorder"><%= link_to topic.title, topic %></td>
+      <td class="tableBorder"><%= topic.username%></td>
+      <td class="tableBorder"><%= pluralize(topic.votes.length, "vote") %></td>
+      <td class="tableBorder"><%= link_to pluralize(topic.comments.count, "comment"), view_comments_topic_path(topic) %></td>
+      <% delete_msg = topic.logged_in_as_author(session[:user_id]) ? 'Are you seriously gonna delete this awesome recipe?' : "Nice try! You can't delete other peoples' posts." %>
+      <td class="last"><%= link_to 'Delete', topic, confirm: delete_msg, method: :delete %></td>
+    </tr>
+  <% end %>
+  </table>
+  <br />
+  
+  <div id="compareButton"><%= submit_tag 'Compare Cocktails' %></div>
+<% end %>
+
+<br />
+
+<%= link_to 'Back to Cocktails List', topics_path %>

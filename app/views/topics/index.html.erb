@@ -3,9 +3,9 @@
 <table>
   <tr style="padding:5px; border-bottom:1px solid lightgrey;">
     <th style="padding:5px;"><em>Cocktail</em></th>
-    <th style="padding:5px; border-left:1px solid lightgrey;"><em>Creator</em></th>
-    <th colspan="2" style="padding:1px; border-left:1px solid lightgrey;"><em>Popularity</em></th>
-    <th style="padding:5px; border-left:1px solid lightgrey;"><em>Responses</em></th>
+    <th class="tableBorder"><em>Creator</em></th>
+    <th colspan="2" class="tableBorder"><em>Popularity</em></th>
+    <th class="tableBorder"><em>Responses</em></th>
     <th></th>
     <th></th>
   </tr>
@@ -13,8 +13,8 @@
 <% @topics.each do |topic| %>
   <tr>
     <td style="padding:5px"><%= link_to topic.title, topic %></td>
-    <td style="padding:5px; border-left:1px solid lightgrey"><%= topic.username%></td>
-    <td style="padding:5px; border-left:1px solid lightgrey;"><%= pluralize(topic.votes.length, "vote") %></td>
+    <td class="tableBorder"><%= topic.username%></td>
+    <td class="tableBorder"><%= pluralize(topic.votes.length, "vote") %></td>
     <% if session[:user_id] %>
       <% if topic.votes_by_user_id(session[:user_id]).empty? %>
         <td><%= button_to '+1', votes_path(topic_id: topic.id), method: :post %></td>
@@ -22,13 +22,14 @@
         <td><%= button_to '-1', subtract_votes_path(topic_id: topic.id), method: :post %></td>
       <% end %>
     <% end %>
-    <td style="padding:5px; border-left:1px solid lightgrey;"><%= link_to pluralize(topic.comments.count, "comment"), view_comments_topic_path(topic) %></td>
+    <td class="tableBorder"><%= link_to pluralize(topic.comments.count, "comment"), view_comments_topic_path(topic) %></td>
     <% delete_msg = topic.logged_in_as_author(session[:user_id]) ? 'Are you seriously gonna delete this awesome recipe?' : "Nice try! You can't delete other peoples' posts." %>
-    <td class="last" style="padding:5px; border-left:1px solid lightgrey;"><%= link_to 'Delete', topic, confirm: delete_msg, method: :delete %></td>
+    <td class="last"><%= link_to 'Delete', topic, confirm: delete_msg, method: :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Topic', new_topic_path %>
+<%= link_to 'Add a New Cocktail', new_topic_path %> |
+<%= link_to 'Compare Cocktails', compare_topics_path %>

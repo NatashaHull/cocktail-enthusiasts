@@ -15,6 +15,10 @@ Suggestotron::Application.routes.draw do
       get 'new_comment'
       post 'create_comment'
     end
+    collection do
+      get 'compare'
+      post 'compare_show'
+    end
   end
 
   root :to => 'site#home'
