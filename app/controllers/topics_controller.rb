@@ -4,7 +4,7 @@ class TopicsController < ApplicationController
   # GET /topics
   # GET /topics.json
   def index
-    @topics = Topic.all
+    @topics = Topic.all.sort_by {|topic| topic.title.downcase}
     @ip = request.remote_ip
 
     respond_to do |format|
@@ -125,7 +125,7 @@ class TopicsController < ApplicationController
   end
   
   def compare
-    @topics = Topic.all
+    @topics = Topic.all.sort_by {|topic| topic.title.downcase}
     @ip = request.remote_ip
 
     respond_to do |format|
