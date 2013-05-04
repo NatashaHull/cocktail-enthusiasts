@@ -1,0 +1,26 @@
+//Possible use of website
+
+New Page: Design a New Cocktail
+
+<body>
+	<h2>Design a new cocktail below!</h2>
+	<h3>What type of cocktail would you like to create?</h3>
+
+	<table>
+		<% drinktypes = [{name: "duo", description: "A duo is a combination of a two spirits and liquers (typically one is a spirit and the other is a liquer, though both can liquers)", components: [:spirit_or_liquor, :liquor]},
+		{name: "trio", description: "A trio is the same thing as a duo, but it also has cream.", components: [:spirit_or_liquor, :liquor, :cream]},
+		{name: "french-italian family", description: "The French-Italian family's best known drinks are martinis and manhattans. These drinks include a base spirit, a type of vermouth, and sometimes include a type of bitters." components: [:base_spirit, :vermouth, :bitters]},
+		{name: "highballs", descriptions: "Highballs typically are defined by a base spirit and some form of soda.  Well known highballs include the dark and stormy, gin and tonic, and cuba libre.  Highballs can also include lime juice and other juices.", components: [:base_spirit, :soda, :juices]},
+		{name: "sparkling sour", description: "A sparkling sour encompasses both collins' and fizzes.  It is typically composed of a base spirit, sweetener, citrus, and some form of soda.  That said, some sparkling sours can also have bitters, juice, cream and eggs.", components: [:base_spirit, :sweetener, :citrus, :other]},
+		{name: 'sour', description: "A sour is a combination of a base spirit (whiskey, or rum, for example) with a sweetening agent and some citrus (a lemon or a lime).", components: [:base_spirit, :sweetener, :citrus]}] %>
+		<% drinktypes.each do |type| %>
+			<tr>
+				<%= radio_button_tag(:drink, type[:name]) %>
+				<%= label_tag("drink_#{type[:name]}", type[:name].capitalize) %>
+				<a onclick=alert(<%= type[:description] %>)>[?]</a>
+			</tr>
+		<% end %>
+		<%= submit_tag 'Next' %>
+	</table>
+	<%= link_to description page %>
+</body>
