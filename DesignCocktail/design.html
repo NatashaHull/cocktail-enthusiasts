@@ -27,15 +27,17 @@
 				<button class="backButton">Back</button>
 				<button class="nextButton" disabled>Next</button>
 			</div>
+
 			<div id="tabs-3">
 				<h3>You have selected your cocktail ingredients. It is time to specify how much of each ingredient you want in your cocktail.</h3>
 				<div id="chooseAmounts" style="padding-bottom: 10px;"></div>
 				<p>Please list any additional instructions below!</p>
-				<p><textarea></textarea></p>
+				<p><textarea id="instructions"></textarea></p>
 				<p>Please bear in mind the strength and taste each ingredient before confirming that you want that much of each ingredient.</p>
 				<button class="backButton">Back</button>
 				<button class="nextButton" disabled>Next</button>
 			</div>
+
 			<div id="tabs-4">
 				<div id="showCocktail" style="padding-bottom: 10px;"></div>
 				<button class="backButton">Back</button>
@@ -67,26 +69,39 @@
 			components['bitters'] = ["angostura bitters", "orange bitters", "none"];
 			components['cream'] = ["cream", "irish creme liqueur"];
 			components['other'] = components['spirit_or_liqueur'].concat(components['sweetener'], components['juice'], components['soda'], components['bitters'], components["cream"]);
-			for (drinkType in drinkTypes){
-				if (drinkTypes.hasOwnProperty(drinkType)) {
-					var drinkTypeRow = $('<tr>');
-					drinkTypeRow.append('<input type="radio" name="drink" value="' + drinkType + '">');
-					drinkTypeRow.append('<span style="text-transform: capitalize;">' + drinkType + ' </span>');
-					drinkTypeRow.append($('<a href="#" style="font-size: 0.7em;" onclick="alert(\'' + drinkTypes[drinkType].description + '\');">[?]</a>'));
-					drinkTypeRow.appendTo('#drinkTypesTable');
+
+			function setUpFirstPage() {
+				for (drinkType in drinkTypes){
+					if (drinkTypes.hasOwnProperty(drinkType)) {
+						var drinkTypeRow = $('<tr>');
+						drinkTypeRow.append('<input type="radio" name="drink" value="' + drinkType + '">');
+						drinkTypeRow.append('<span style="text-transform: capitalize;">' + drinkType + ' </span>');
+						drinkTypeRow.append($('<a href="#" style="font-size: 0.7em;" onclick="alert(\'' + drinkTypes[drinkType].description + '\');">[?]</a>'));
+						drinkTypeRow.appendTo('#drinkTypesTable');
+					}
 				}
+
+				$('#drinkTypesTable input[type=radio]').click(function(e) {
+					$('#tabs-1 .nextButton').attr('disabled', false);
+
+					var selectedDrinkType = e.currentTarget.value;
+					var drinkComponents = drinkTypes[selectedDrinkType].components
+
+					setUpSecondPage(selectedDrinkType, drinkComponents);
+				});
+
+				$('#tabs-1 .nextButton').click(function() {
+					$("#tabs").tabs("enable", 1).tabs("option", "active", 1);
+				});
 			}
-			$('#drinkTypesTable input[type=radio]').click(function(e) {
-				$('#tabs-1 .nextButton').attr('disabled', false);
 
-				var selectedDrinkType = e.currentTarget.value;
-				var drinkComponents = drinkTypes[selectedDrinkType].components
-
+			function setUpSecondPage(drinkType, drinkComponents) {
 				$('#chooseComponents').html('');
-				$('<h3>You have selected to make a <span style="text-transform: capitalize;">' + selectedDrinkType + '</span> cocktail!</h3>').appendTo('#chooseComponents');
+				$('<h3>You have selected to make a <span style="text-transform: capitalize;">' + drinkType + '</span> cocktail!</h3>').appendTo('#chooseComponents');
 				//Note that drinks with underscores will appear strangely.
 				$('<p>This drink contains: a ' + drinkComponents.join(', a ') + '. Please select the specific ingredients you want below!</p>').appendTo('#chooseComponents');
 				$('<p>Is this not the drink which you intended to make?  If so, click the back button below!</p>').appendTo('#chooseComponents');
+
 				for(var i = 0; i < drinkComponents.length; i++) {
 					var ingredient = drinkComponents[i];
 					$('<p>Please select your ' + drinkComponents[i] + ' below:</p>').appendTo('#chooseComponents');
@@ -99,7 +114,8 @@
 					}
 					selectBox.appendTo('#chooseComponents');
 				}
-				$('#chooseComponents select').change(function(e) {
+
+				$('#chooseComponents select').change(function() {
 					var readyToMoveOn = true;
 					var ingredients = [];
 					var selects = $('#chooseComponents select');
@@ -114,52 +130,81 @@
 
 					if (readyToMoveOn) {
 						$('#tabs-2 .nextButton').attr('disabled', false);
-						$('#chooseAmounts').html('');
-						for (var i = 0; i < ingredients.length; i++) {
-							amountOption = $('<p>');
-							amountOption.append($('<input type="text">'));
-							amountOption.append($('<span>' + ingredients[i] + '</span>'));
-							amountOption.appendTo($('#chooseAmounts'));
-						}
-					}
-					//Need to add more safety so that all fields must be filled out!
-					if (readytoMoveOn) {
-						var readyToMoveOn2 = true;
-					}
-					$('#showCocktail').html('');
-					if (readyToMoveOn2) {
-						$('#tabs-3 .nextButton').attr('disabled', false);
-						/* for(var i = 0; i < amount.length; i++) {
-							for(var j = 0; j < ingredients.length; j++)
-								showOption = $('<p>');
-								showOption.append($('<span>' + amount[i] + ' ' + ingredients[j]'</span>'));
-								showOption.appendTo($('#showCocktail'));
-							}
-						}
-						amount.last.appendTo($('#showCocktail')); */
+						setUpThirdPage(ingredients);
 					}
 				});
-			});
+
+				$("#tabs-2 .backButton").click(function() {
+					$("#tabs").tabs("option", "active", 0);
+				});
+				$('#tabs-2 .nextButton').click(function() {
+					$("#tabs").tabs("enable", 2).tabs("option", "active", 2);
+				});
+			}
+
+			function setUpThirdPage(ingredients) {
+				$('#chooseAmounts').html('');
+				for (var i = 0; i < ingredients.length; i++) {
+					amountOption = $('<p>');
+					amountOption.append($('<input type="text">'));
+					amountOption.append($('<span>' + ingredients[i] + '</span>'));
+					amountOption.appendTo($('#chooseAmounts'));
+				}
+
+				$('#chooseAmounts input, #instructions').keyup(function() {
+					var readyToMoveOn = true;
+					var amounts = {};
+
+					$('#chooseAmounts p').each(function (i, row) {
+						var amount = $(row).find('input').val();
+						var ingredient = $(row).find('span').text();
+
+						if (amount == '') {
+							readyToMoveOn = false;
+						} else {
+							amounts[ingredient] = amount;
+						}
+					});
+
+					var instructions = $('#tabs-3 #instructions').val();
+
+					if (readyToMoveOn) {
+						$('#tabs-3 .nextButton').attr('disabled', false);
+
+						setUpFourthPage(amounts, instructions);
+					}
+				});
+
+				$("#tabs-3 .backButton").click(function() {
+					$("#tabs").tabs("option", "active", 1);
+				});
+				$('#tabs-3 .nextButton').click(function() {
+					$("#tabs").tabs("enable", 3).tabs("option", "active", 3);
+				});
+			}
+
+			function setUpFourthPage(amounts, instructions) {
+				$('#showCocktail').html('');
+				for (ingredient in amounts) {
+					if (amounts.hasOwnProperty(ingredient)) {
+						var paragraph = $('<p>');
+						paragraph.text(amounts[ingredient] + ' ' + ingredient);
+						paragraph.appendTo($('#showCocktail'));
+					}
+				}
+
+				var instructionsPar = $('<p>');
+				instructionsPar.text(instructions);
+				instructionsPar.appendTo($('#showCocktail'));
+
+				$("#tabs-4 .backButton").click(function() {
+					$("#tabs").tabs("option", "active", 2);
+				});
+			}
+
 			$("#tabs").tabs({ disabled: [ 1, 2, 3 ] });
-			$('#tabs-1 .nextButton').click(function() {
-				$("#tabs").tabs("enable", 1).tabs("option", "active", 1);
-			});
-			$("#tabs-2 .backButton").click(function() {
-				$("#tabs").tabs("option", "active", 0);
-			});
-			$('#tabs-2 .nextButton').click(function() {
-				$("#tabs").tabs("enable", 2).tabs("option", "active", 2);
-			});
-			$("#tabs-3 .backButton").click(function() {
-				$("#tabs").tabs("option", "active", 1);
-			});
-			$('#tabs-3 .nextButton').click(function() {
-				$("#tabs").tabs("enable", 3).tabs("option", "active", 3);
-			});
+			setUpFirstPage();
 			$('body').show();
-			$("#tabs-4 .backButton").click(function() {
-				$("#tabs").tabs("option", "active", 2);
-			});
 		</script>
 	</body>
 </html>
