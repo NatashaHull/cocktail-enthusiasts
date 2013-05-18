@@ -63,3 +63,23 @@ other = base_spirit + sweetener + juice + soda + bitters
 	<%= submit_tag 'Back' %>
 	<%= submit_tag 'Next' %>
 </body>
+
+//Below is the code for the third page!!!
+<body>
+	<h2>Design a new cocktail below!</h2>
+	<h3>You have selected your cocktail ingredients. It is time to specify how much of each ingredient you want in your cocktail.<h3>
+	<% component.ingredient each do |ingredient| %>
+		<tr>
+			<input type="text">
+			<p>ingredient</p>
+		</tr>
+	<% end %>
+	<h3>Please list any additional instructions below!</h3>
+	<textarea></textarea>
+	<p>Please bear in mind the strength and taste each ingredient before confirming that you want that much of each ingredient.</p>
+	<p>Hit next to view your cocktail!</p>
+	<%= submit_tag 'Back' %>
+	<%= submit_tag 'Next' %>
+</body>
+
+//Below is the final show page!!!

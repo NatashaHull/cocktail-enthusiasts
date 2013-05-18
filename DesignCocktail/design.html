@@ -9,6 +9,7 @@
 			<ul>
 				<li><a href="#tabs-1">Drink Type</a></li>
 				<li><a href="#tabs-2">Components</a></li>
+				<li><a href="#tabs-3">Proportions</a></li>
 			</ul>
 
 			<div id="tabs-1">
@@ -22,6 +23,14 @@
 
 			<div id="tabs-2">
 				<div id="chooseComponents" style="padding-bottom: 10px;"></div>
+				<button class="backButton">Back</button>
+				<button class="nextButton" disabled>Next</button>
+			</div>
+			<div id="tabs-3">
+				<div id="chooseAmounts" style="padding-bottom: 10px;"></div>
+				<p>Please list any additional instructions below!</p>
+				<p><textarea></textarea></p>
+				<p>Please bear in mind the strength and taste each ingredient before confirming that you want that much of each ingredient.</p>
 				<button class="backButton">Back</button>
 				<button class="nextButton" disabled>Next</button>
 			</div>
@@ -41,15 +50,15 @@
 			};
 
 			var components = {};
-			components['base_spirit'] = ["bourbon", "brandy", "gin", "rum", "rye", "scotch", "sloe gin", "tequila", "vodka"];
-			components['liqueur'] = ["amaretto", "apple sour pucker", "benedictine", "cointreau", "creme de menthe", "creme de cocoa", "drambuie", "frangelico", "grand marnier", "kahlua", "peach schnapps", "triple sec"];
+			components['base_spirit'] = ["bourbon", "brandy", "gin", "rum", "rye", "scotch", "tequila", "vodka"];
+			components['liqueur'] = ["amaretto", "apple sour pucker", "benedictine", "cointreau", "creme de menthe", "creme de cocoa", "drambuie", "frangelico", "grand marnier", "kahlua", "peach schnapps", "sloe gin", "triple sec"];
 			components['spirit_or_liqueur'] = components['base_spirit'].concat(components['liqueur']);
 			components['citrus'] = ['lemon', 'lime'];
 			components['vermouth'] = ["sweet vermouth", "dry vermouth", "lillet blanc", "cocci americano"];
 			components['sweetener'] = components['liqueur'].concat(["grenadine", "simple syrup"]);
 			components['soda'] = ["club soda", "cola", "ginger beer"];
 			components['juices'] = ["cranberry juice", "grapefruit juice", "pineapple juice", "orange juice"];
-			components['bitters'] = ["angostura bitters", "orange bitters"];
+			components['bitters'] = ["angostura bitters", "orange bitters", "none"];
 			components['cream'] = ["cream", "irish creme liqueur"];
 			components['other'] = components['spirit_or_liqueur'].concat(components['sweetener'], components['juice'], components['soda'], components['bitters'], components["cream"]);
 			for (drinkType in drinkTypes){
@@ -62,7 +71,7 @@
 				}
 			}
 			$('#drinkTypesTable input[type=radio]').click(function(e) {
-				$('.nextButton').attr('disabled', false);
+				$('#tabs-1 .nextButton').attr('disabled', false);
 
 				var selectedDrinkType = e.currentTarget.value;
 				var drinkComponents = drinkTypes[selectedDrinkType].components
@@ -75,20 +84,52 @@
 				for(var i = 0; i < drinkComponents.length; i++) {
 					var ingredient = drinkComponents[i];
 					$('<p>Please select your ' + drinkComponents[i] + ' below:</p>').appendTo('#chooseComponents');
+					var selectBox = $('<select id="' + ingredient + '">')
+					selectBox.append('<option value=""></option>');
 					for(var j = 0; j < components[ingredient].length; j++) {
-						var ingredientRow = $('<tr>');
-						ingredientRow.append('<input type="radio" name="item-' + ingredient + '" value="' + components[ingredient][j] + '">');
-						ingredientRow.append('<span style="text-transform: capitalize;">' + components[ingredient][j] + ' </span>');
-						ingredientRow.appendTo('#chooseComponents');
+						ingredientOption = $('<option name="item-' + ingredient + '" value="' + components[ingredient][j] + '">');
+						ingredientOption.append(components[ingredient][j]);
+						ingredientOption.appendTo(selectBox);
 					}
+					selectBox.appendTo('#chooseComponents');
 				}
+				$('#chooseComponents select').change(function(e) {
+					var readyToMoveOn = true;
+					var ingredients = [];
+					var selects = $('#chooseComponents select');
+					for (var i = 0; i < selects.length; i++) {
+						var select = selects[i];
+						if (select.value == '') {
+							readyToMoveOn = false;
+						} else if (select.value !== 'none') {
+							ingredients.push(select.value);
+						}
+					}
+					if (readyToMoveOn) {
+						$('#tabs-2 .nextButton').attr('disabled', false);
+						$('#chooseAmounts').html('');
+						for (var i = 0; i < ingredients.length; i++) {
+							amountOption = $('<p>');
+							amountOption.append($('<input type="text">'));
+							amountOption.append($('<span>' + ingredients[i] + '</span>'));
+							amountOption.appendTo($('#chooseAmounts'));
+						}
+					}
+					
+				});
 			});
-			$("#tabs").tabs({ disabled: [ 1 ] });
+			$("#tabs").tabs({ disabled: [ 1, 2 ] });
 			$('#tabs-1 .nextButton').click(function() {
 				$("#tabs").tabs("enable", 1).tabs("option", "active", 1);
 			});
 			$("#tabs-2 .backButton").click(function() {
 				$("#tabs").tabs("option", "active", 0);
+			});
+			$('#tabs-2 .nextButton').click(function() {
+				$("#tabs").tabs("enable", 2).tabs("option", "active", 2);
+			});
+			$("#tabs-3 .backButton").click(function() {
+				$("#tabs").tabs("option", "active", 1);
 			});
 			$('body').show();
 		</script>
