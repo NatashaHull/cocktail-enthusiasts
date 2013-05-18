@@ -2,7 +2,7 @@
 	<head>
 		<link rel='stylesheet' href="css/smoothness/jquery-ui-1.10.3.custom.min.css"></link>
 	</head>
-	<body>
+	<body style="display: none;">
 		<h2>Design a new cocktail below!</h2>
 
 		<div id="tabs">
@@ -17,10 +17,13 @@
 				<table id="drinkTypesTable">
 				</table>
 
-				<button id="nextButton" disabled>Next</button>
+				<button class="nextButton" disabled>Next</button>
 			</div>
 
 			<div id="tabs-2">
+				<div id="chooseComponents" style="padding-bottom: 10px;"></div>
+				<button class="backButton">Back</button>
+				<button class="nextButton" disabled>Next</button>
 			</div>
 		</div>
 
@@ -47,19 +50,8 @@
 			components['soda'] = ["club soda", "cola", "ginger beer"];
 			components['juices'] = ["cranberry juice", "grapefruit juice", "pineapple juice", "orange juice"];
 			components['bitters'] = ["angostura bitters", "orange bitters"];
-			components['other'] = components['spirit_or_liqueur'].concat(components['sweetener'], components['juice'], components['soda'], components['bitters']);
-
-			/* <!--
-				<% drinktypes.each do |type| %>
-					<tr>
-						<%= radio_button_tag(:drink, type[:name]) %>
-						<%= label_tag("drink_#{type[:name]}", type[:name].capitalize) %>
-						<a onclick=alert(<%= type[:description] %>)>[?]</a>
-					</tr>
-				<% end %>
-				<%= submit_tag 'Next' %>
-			--> */
-
+			components['cream'] = ["cream", "irish creme liqueur"];
+			components['other'] = components['spirit_or_liqueur'].concat(components['sweetener'], components['juice'], components['soda'], components['bitters'], components["cream"]);
 			for (drinkType in drinkTypes){
 				if (drinkTypes.hasOwnProperty(drinkType)) {
 					var drinkTypeRow = $('<tr>');
@@ -70,55 +62,35 @@
 				}
 			}
 			$('#drinkTypesTable input[type=radio]').click(function(e) {
-				$('#nextButton').attr('disabled', false);
+				$('.nextButton').attr('disabled', false);
 
 				var selectedDrinkType = e.currentTarget.value;
 				var drinkComponents = drinkTypes[selectedDrinkType].components
 
-				$('#tabs-2').html('');
-				$('<h3>You have selected to make a <span style="text-transform: capitalize;">' + selectedDrinkType + '</span> cocktail!</h3>').appendTo('#tabs-2');
+				$('#chooseComponents').html('');
+				$('<h3>You have selected to make a <span style="text-transform: capitalize;">' + selectedDrinkType + '</span> cocktail!</h3>').appendTo('#chooseComponents');
 				//Note that drinks with underscores will appear strangely.
-				$('<p>This drink contains: a ' + drinkComponents.join(', a ') + '. Please select the specific ingredients you want below!</p>').appendTo('#tabs-2');
-				$('<p>Is this not the drink which you intended to make?  If so, click the back button below!</p>').appendTo('#tabs-2');
+				$('<p>This drink contains: a ' + drinkComponents.join(', a ') + '. Please select the specific ingredients you want below!</p>').appendTo('#chooseComponents');
+				$('<p>Is this not the drink which you intended to make?  If so, click the back button below!</p>').appendTo('#chooseComponents');
 				for(var i = 0; i < drinkComponents.length; i++) {
 					var ingredient = drinkComponents[i];
-					$('<p>Please select your ' + drinkComponents[i] + ' below:</p>').appendTo('#tabs-2');
+					$('<p>Please select your ' + drinkComponents[i] + ' below:</p>').appendTo('#chooseComponents');
 					for(var j = 0; j < components[ingredient].length; j++) {
 						var ingredientRow = $('<tr>');
-						ingredientRow.append('<input type="radio" name="item" value="' + components[ingredient][j] + '">');
+						ingredientRow.append('<input type="radio" name="item-' + ingredient + '" value="' + components[ingredient][j] + '">');
 						ingredientRow.append('<span style="text-transform: capitalize;">' + components[ingredient][j] + ' </span>');
-						ingredientRow.appendTo('#tabs-2');
+						ingredientRow.appendTo('#chooseComponents');
 					}
 				}
 			});
 			$("#tabs").tabs({ disabled: [ 1 ] });
-			$('#tabs-1 #nextButton').click(function() {
+			$('#tabs-1 .nextButton').click(function() {
 				$("#tabs").tabs("enable", 1).tabs("option", "active", 1);
 			});
+			$("#tabs-2 .backButton").click(function() {
+				$("#tabs").tabs("option", "active", 0);
+			});
+			$('body').show();
 		</script>
 	</body>
-
-	<!-- //Below is the code for the second page!!
-	<body>
-		<h2>Design a new coctail below!</h2>
-		// Below I am trying to recall what was submitted and repeate the drink type.
-		<% drinktype.selected.each do |type| %>
-			<h3>You have selected to make a <%= drinktypes[:name] %>!</h3>
-			<p>This drink contains <%= drinktypes[:components] %> please select the specific ingredients you want below!</p>
-			<p>Is this not the drink which you intended to make?  If so, click the back button below!</p>
-			// Here I am tryng to set up each quetion so that all the required components will be selected on this page.
-			<% drinktype.selected.components each do |component| %>
-				<p>Please select your <%= component %> below:</p>
-				// This is where someone would select the specific ingredient which would satisfy each component.
-				<% component each do |ingredient| %>
-					<tr>
-						<%= radio_button_tag(:item, ingredient) %>
-						<%= label_tag("item#ingredient", ingredient %>
-					</tr>
-				<% end %>
-			<% end %>
-		<% end %>
-		<%= submit_tag 'Back' %>
-		<%= submit_tag 'Next' %>
-	</body> -->
 </html>
