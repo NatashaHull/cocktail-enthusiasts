@@ -10,6 +10,7 @@
 				<li><a href="#tabs-1">Drink Type</a></li>
 				<li><a href="#tabs-2">Components</a></li>
 				<li><a href="#tabs-3">Proportions</a></li>
+				<li><a href="#tabs-4">Your New Cocktail!</a></li>
 			</ul>
 
 			<div id="tabs-1">
@@ -27,12 +28,17 @@
 				<button class="nextButton" disabled>Next</button>
 			</div>
 			<div id="tabs-3">
+				<h3>You have selected your cocktail ingredients. It is time to specify how much of each ingredient you want in your cocktail.</h3>
 				<div id="chooseAmounts" style="padding-bottom: 10px;"></div>
 				<p>Please list any additional instructions below!</p>
 				<p><textarea></textarea></p>
 				<p>Please bear in mind the strength and taste each ingredient before confirming that you want that much of each ingredient.</p>
 				<button class="backButton">Back</button>
 				<button class="nextButton" disabled>Next</button>
+			</div>
+			<div id="tabs-4">
+				<div id="showCocktail" style="padding-bottom: 10px;"></div>
+				<button class="backButton">Back</button>
 			</div>
 		</div>
 
@@ -105,6 +111,7 @@
 							ingredients.push(select.value);
 						}
 					}
+
 					if (readyToMoveOn) {
 						$('#tabs-2 .nextButton').attr('disabled', false);
 						$('#chooseAmounts').html('');
@@ -115,10 +122,25 @@
 							amountOption.appendTo($('#chooseAmounts'));
 						}
 					}
-					
+					//Need to add more safety so that all fields must be filled out!
+					if (readytoMoveOn) {
+						var readyToMoveOn2 = true;
+					}
+					$('#showCocktail').html('');
+					if (readyToMoveOn2) {
+						$('#tabs-3 .nextButton').attr('disabled', false);
+						/* for(var i = 0; i < amount.length; i++) {
+							for(var j = 0; j < ingredients.length; j++)
+								showOption = $('<p>');
+								showOption.append($('<span>' + amount[i] + ' ' + ingredients[j]'</span>'));
+								showOption.appendTo($('#showCocktail'));
+							}
+						}
+						amount.last.appendTo($('#showCocktail')); */
+					}
 				});
 			});
-			$("#tabs").tabs({ disabled: [ 1, 2 ] });
+			$("#tabs").tabs({ disabled: [ 1, 2, 3 ] });
 			$('#tabs-1 .nextButton').click(function() {
 				$("#tabs").tabs("enable", 1).tabs("option", "active", 1);
 			});
@@ -131,7 +153,13 @@
 			$("#tabs-3 .backButton").click(function() {
 				$("#tabs").tabs("option", "active", 1);
 			});
+			$('#tabs-3 .nextButton').click(function() {
+				$("#tabs").tabs("enable", 3).tabs("option", "active", 3);
+			});
 			$('body').show();
+			$("#tabs-4 .backButton").click(function() {
+				$("#tabs").tabs("option", "active", 2);
+			});
 		</script>
 	</body>
 </html>
