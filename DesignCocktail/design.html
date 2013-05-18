@@ -71,6 +71,9 @@
 			components['bitters'] = ["angostura bitters", "orange bitters", "none"];
 			components['cream'] = ["cream", "irish creme liqueur"];
 			components['other'] = components['spirit_or_liqueur'].concat(components['sweetener'], components['juice'], components['soda'], components['bitters'], components["cream"]);
+			String.prototype.toCapitalize = function() { 
+   				return this.toLowerCase().replace(/^.|\s\S/g, function(a) { return a.toUpperCase();});
+   			}
 
 			function setUpFirstPage() {
 				for (drinkType in drinkTypes){
@@ -100,8 +103,7 @@
 			function setUpSecondPage(drinkType, drinkComponents) {
 				$('#chooseComponents').html('');
 				$('<h3>You have selected to make a <span style="text-transform: capitalize;">' + drinkType + '</span> cocktail!</h3>').appendTo('#chooseComponents');
-				//Note that drinks with underscores will appear strangely.
-				$('<p>This drink contains: a ' + drinkComponents.join(', a ') + '. Please select the specific ingredients you want below!</p>').appendTo('#chooseComponents');
+				$('<p>This drink contains: a ' + drinkComponents.join(', a ').replace(/_/g,' ') + '. Please select the specific ingredients you want below!</p>').appendTo('#chooseComponents');
 				$('<p>Is this not the drink which you intended to make?  If so, click the back button below!</p>').appendTo('#chooseComponents');
 
 				for(var i = 0; i < drinkComponents.length; i++) {
@@ -111,7 +113,7 @@
 					selectBox.append('<option value=""></option>');
 					for(var j = 0; j < components[ingredient].length; j++) {
 						ingredientOption = $('<option name="item-' + ingredient + '" value="' + components[ingredient][j] + '">');
-						ingredientOption.append(components[ingredient][j]);
+						ingredientOption.append(components[ingredient][j].toCapitalize());
 						ingredientOption.appendTo(selectBox);
 					}
 					selectBox.appendTo('#chooseComponents');
