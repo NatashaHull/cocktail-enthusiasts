@@ -1,0 +1,124 @@
+<html>
+	<head>
+		<link rel='stylesheet' href="css/smoothness/jquery-ui-1.10.3.custom.min.css"></link>
+	</head>
+	<body>
+		<h2>Design a new cocktail below!</h2>
+
+		<div id="tabs">
+			<ul>
+				<li><a href="#tabs-1">Drink Type</a></li>
+				<li><a href="#tabs-2">Components</a></li>
+			</ul>
+
+			<div id="tabs-1">
+				<h3>What type of cocktail would you like to create?</h3>
+
+				<table id="drinkTypesTable">
+				</table>
+
+				<button id="nextButton" disabled>Next</button>
+			</div>
+
+			<div id="tabs-2">
+			</div>
+		</div>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
+		<script>
+			var drinkTypes = {
+				"duo": {description: "A duo is a combination of a two spirits and liquers (typically one is a spirit and the other is a liquer, though both can liquers)", components: ['spirit_or_liqueur', 'liqueur']},
+				"trio": {description: "A trio is the same thing as a duo, but it also has cream.", components: ['spirit_or_liqueur', 'liqueur', 'cream']},
+				"french-italian family": {description: "The French-Italian family&rsquo;s best known drinks are martinis and manhattans. These drinks include a base spirit, a type of vermouth, and sometimes include a type of bitters.", components: ['base_spirit', 'vermouth', 'bitters']},
+				"highball": {description: "Highballs typically are defined by a base spirit and some form of soda.  Well known highballs include the dark and stormy, gin and tonic, and cuba libre.  Highballs can also include lime juice and other juices.", components: ['base_spirit', 'soda', 'juices']},
+				"sparkling sour": {description: "A sparkling sour encompasses both collinses and fizzes.  It is typically composed of a base spirit, sweetener, citrus, and some form of soda.  That said, some sparkling sours can also have bitters, juice, cream and eggs.", components: ['base_spirit', 'sweetener', 'citrus', 'other']},
+				'sour': {description: "A sour is a combination of a base spirit (whiskey, or rum, for example) with a sweetening agent and some citrus (a lemon or a lime).", components: ['base_spirit', 'sweetener', 'citrus']}
+			};
+
+			var components = {};
+			components['base_spirit'] = ["bourbon", "brandy", "gin", "rum", "rye", "scotch", "sloe gin", "tequila", "vodka"];
+			components['liqueur'] = ["amaretto", "apple sour pucker", "benedictine", "cointreau", "creme de menthe", "creme de cocoa", "drambuie", "frangelico", "grand marnier", "kahlua", "peach schnapps", "triple sec"];
+			components['spirit_or_liqueur'] = components['base_spirit'].concat(components['liqueur']);
+			components['citrus'] = ['lemon', 'lime'];
+			components['vermouth'] = ["sweet vermouth", "dry vermouth", "lillet blanc", "cocci americano"];
+			components['sweetener'] = components['liqueur'].concat(["grenadine", "simple syrup"]);
+			components['soda'] = ["club soda", "cola", "ginger beer"];
+			components['juices'] = ["cranberry juice", "grapefruit juice", "pineapple juice", "orange juice"];
+			components['bitters'] = ["angostura bitters", "orange bitters"];
+			components['other'] = components['spirit_or_liqueur'].concat(components['sweetener'], components['juice'], components['soda'], components['bitters']);
+
+			/* <!--
+				<% drinktypes.each do |type| %>
+					<tr>
+						<%= radio_button_tag(:drink, type[:name]) %>
+						<%= label_tag("drink_#{type[:name]}", type[:name].capitalize) %>
+						<a onclick=alert(<%= type[:description] %>)>[?]</a>
+					</tr>
+				<% end %>
+				<%= submit_tag 'Next' %>
+			--> */
+
+			for (drinkType in drinkTypes){
+				if (drinkTypes.hasOwnProperty(drinkType)) {
+					var drinkTypeRow = $('<tr>');
+					drinkTypeRow.append('<input type="radio" name="drink" value="' + drinkType + '">');
+					drinkTypeRow.append('<span style="text-transform: capitalize;">' + drinkType + ' </span>');
+					drinkTypeRow.append($('<a href="#" style="font-size: 0.7em;" onclick="alert(\'' + drinkTypes[drinkType].description + '\');">[?]</a>'));
+					drinkTypeRow.appendTo('#drinkTypesTable');
+				}
+			}
+			$('#drinkTypesTable input[type=radio]').click(function(e) {
+				$('#nextButton').attr('disabled', false);
+
+				var selectedDrinkType = e.currentTarget.value;
+				var drinkComponents = drinkTypes[selectedDrinkType].components
+
+				$('#tabs-2').html('');
+				$('<h3>You have selected to make a <span style="text-transform: capitalize;">' + selectedDrinkType + '</span> cocktail!</h3>').appendTo('#tabs-2');
+				//Note that drinks with underscores will appear strangely.
+				$('<p>This drink contains: a ' + drinkComponents.join(', a ') + '. Please select the specific ingredients you want below!</p>').appendTo('#tabs-2');
+				$('<p>Is this not the drink which you intended to make?  If so, click the back button below!</p>').appendTo('#tabs-2');
+				for(var i = 0; i < drinkComponents.length; i++) {
+					var ingredient = drinkComponents[i];
+					$('<p>Please select your ' + drinkComponents[i] + ' below:</p>').appendTo('#tabs-2');
+					for(var j = 0; j < components[ingredient].length; j++) {
+						var ingredientRow = $('<tr>');
+						ingredientRow.append('<input type="radio" name="item" value="' + components[ingredient][j] + '">');
+						ingredientRow.append('<span style="text-transform: capitalize;">' + components[ingredient][j] + ' </span>');
+						ingredientRow.appendTo('#tabs-2');
+					}
+				}
+			});
+			$("#tabs").tabs({ disabled: [ 1 ] });
+			$('#tabs-1 #nextButton').click(function() {
+				$("#tabs").tabs("enable", 1).tabs("option", "active", 1);
+			});
+		</script>
+	</body>
+
+	<!-- //Below is the code for the second page!!
+	<body>
+		<h2>Design a new coctail below!</h2>
+		// Below I am trying to recall what was submitted and repeate the drink type.
+		<% drinktype.selected.each do |type| %>
+			<h3>You have selected to make a <%= drinktypes[:name] %>!</h3>
+			<p>This drink contains <%= drinktypes[:components] %> please select the specific ingredients you want below!</p>
+			<p>Is this not the drink which you intended to make?  If so, click the back button below!</p>
+			// Here I am tryng to set up each quetion so that all the required components will be selected on this page.
+			<% drinktype.selected.components each do |component| %>
+				<p>Please select your <%= component %> below:</p>
+				// This is where someone would select the specific ingredient which would satisfy each component.
+				<% component each do |ingredient| %>
+					<tr>
+						<%= radio_button_tag(:item, ingredient) %>
+						<%= label_tag("item#ingredient", ingredient %>
+					</tr>
+				<% end %>
+			<% end %>
+		<% end %>
+		<%= submit_tag 'Back' %>
+		<%= submit_tag 'Next' %>
+	</body> -->
+</html>
