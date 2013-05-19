@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <link rel='stylesheet' href="css/smoothness/jquery-ui-1.10.3.custom.min.css"></link>
+  </head>
+  <body style="display: none;">
+    <h2>Design a new cocktail below!</h2>
+
+    <div id="tabs">
+      <ul>
+        <li><a href="#tabs-1">Drink Type</a></li>
+        <li><a href="#tabs-2">Components</a></li>
+        <li><a href="#tabs-3">Proportions</a></li>
+        <li><a href="#tabs-4">Your New Cocktail!</a></li>
+      </ul>
+
+    <div id="tabs-1">
+      <h3>What type of cocktail would you like to create?</h3>
+      <table id="drinkTypesTable"></table>
+      <button class="nextButton" disabled>Next</button>
+    </div>
+
+    <div id="tabs-2">
+      <div id="chooseComponents" style="padding-bottom: 10px;"></div>
+      <button class="backButton">Back</button>
+      <button class="nextButton" disabled>Next</button>
+    </div>
+
+    <div id="tabs-3">
+      <h3>You have selected your cocktail ingredients. It is time to specify how much of each ingredient you want in your cocktail.</h3>
+      <div id="chooseAmounts" style="padding-bottom: 10px;"></div>
+      <p>Please list any additional instructions below!</p>
+      <p><textarea id="instructions"></textarea></p>
+      <p>Please bear in mind the strength and taste each ingredient before confirming that you want that much of each ingredient.</p>
+      <button class="backButton">Back</button>
+      <button class="nextButton" disabled>Next</button>
+    </div>
+
+    <div id="tabs-4">
+      <h3>Congratulations!  You have now created a cocktail.  Try the following recipe at your own risk.</h3>
+      <div id="showCocktail" style="padding-bottom: 10px;"></div>
+      <p>Please note that you cannot save the cocktail from this page.  If you decide that you like the cocktail, please copy this drink into the "Create a New Cocktail" form accessible from the topics page.</p>
+      <button class="backButton">Back</button>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+  </body>
+</html>
