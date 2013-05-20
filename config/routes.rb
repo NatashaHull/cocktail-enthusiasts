@@ -3,6 +3,8 @@ Suggestotron::Application.routes.draw do
 
   resources :comments
 
+  get "design/index"
+
   resources :votes, :only => [:create] do
     collection do
       post 'subtract'
