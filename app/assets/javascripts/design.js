@@ -23,7 +23,22 @@ var components = {};
     return this.toLowerCase().replace(/^.|\s\S/g, function(a) { return a.toUpperCase();});
   }
 
+function listIngredients(array) {
+    var string = 'a ';
+    for(var i=0; i < array.length; i++) {
+        if (i == (array.length - 2)) {
+            string += array[i] + ', and a ';
+        } else if (i == array.length - 1) {
+            string += array[i]
+        } else {
+            string += array[i] + ', a ';
+        }
+    }
+    return string;
+}
+
 function setUpFirstPage() {
+    $('#drinkTypesTable').html('');
     for (drinkType in drinkTypes){
         if (drinkTypes.hasOwnProperty(drinkType)) {
             var drinkTypeRow = $('<tr>');
@@ -51,7 +66,7 @@ function setUpFirstPage() {
 function setUpSecondPage(drinkType, drinkComponents) {
     $('#chooseComponents').html('');
     $('<h3>You have selected to make a <span style="text-transform: capitalize;">' + drinkType + '</span> cocktail!</h3>').appendTo('#chooseComponents');
-    $('<p>This drink contains: a ' + drinkComponents.join(', a ').replace(/_/g,' ') + '. Please select the specific ingredients you want below!</p>').appendTo('#chooseComponents');
+    $('<p>This drink contains: ' + listIngredients(drinkComponents).replace(/_/g,' ') + '. Please select the specific ingredients you want below!</p>').appendTo('#chooseComponents');
     $('<p>Is this not the drink which you intended to make?  If so, click the back button below!</p>').appendTo('#chooseComponents');
     
     for(var i = 0; i < drinkComponents.length; i++) {
