@@ -24,10 +24,6 @@ class Topic < ActiveRecord::Base
     user.name rescue ""
   end
 
-  def comments?
-    comments.length > 0
-  end
-
   def votes_by_user_id(user_id)
     votes.where(:user_id => user_id)
   end

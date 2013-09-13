@@ -10,23 +10,23 @@
     <th></th>
   </tr>
 
-<% @topics.each do |topic| %>
-  <tr>
-    <td style="padding:5px"><%= link_to topic.title, topic %></td>
-    <td class="tableBorder"><%= topic.username%></td>
-    <td class="tableBorder"><%= pluralize(topic.votes.length, "vote") %></td>
-    <% if session[:user_id] %>
-      <% if topic.votes_by_user_id(session[:user_id]).empty? %>
-        <td><%= button_to '+1', votes_path(topic_id: topic.id), method: :post %></td>
-      <% else %>
-        <td><%= button_to '-1', subtract_votes_path(topic_id: topic.id), method: :post %></td>
+  <% @topics.each do |topic| %>
+    <tr class="topic" >
+      <td class="tableBorder"><%= link_to topic.title, topic %></td>
+      <td class="tableBorder"><%= topic.username%></td>
+      <td class="tableBorder"><%= pluralize(topic.votes.length, "vote") %></td>
+      <% if session[:user_id] %>
+        <% if topic.votes_by_user_id(session[:user_id]).empty? %>
+          <td><%= button_to '+1', votes_path(topic_id: topic.id), method: :post %></td>
+        <% else %>
+          <td><%= button_to '-1', subtract_votes_path(topic_id: topic.id), method: :post %></td>
+        <% end %>
       <% end %>
-    <% end %>
-    <td class="tableBorder"><%= pluralize(topic.comments.count, "comment") %></td>
-    <% delete_msg = topic.logged_in_as_author(session[:user_id]) ? 'Are you seriously gonna delete this awesome recipe?' : "Nice try! You can't delete other peoples' posts." %>
-    <td class="last"><%= link_to 'Delete', topic, confirm: delete_msg, method: :delete %></td>
-  </tr>
-<% end %>
+      <td class="tableBorder"><%= pluralize(topic.comments.count, "comment") %></td>
+      <% delete_msg = topic.logged_in_as_author(session[:user_id]) ? 'Are you seriously gonna delete this awesome recipe?' : "Nice try! You can't delete other peoples' posts." %>
+      <td class="tableBorder"><%= link_to 'Delete', topic, confirm: delete_msg, method: :delete %></td>
+    </tr>
+  <% end %>
 </table>
 
 <br />

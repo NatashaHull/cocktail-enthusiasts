@@ -1,6 +1,4 @@
-<h1 style="color:turquoise;">  <%= @topic.title %></h1>
-<h2 style="color:lightgreen;"><em>  <%= @topic.username %></em></h2>
-<h3>  <%= simple_format @topic.description %> </h3>
+<%= render 'show_topic' %>
 
 <% if @topic.comments.empty? %>
 	<h3>There are currently no comments on this cocktail.</h3>
@@ -12,8 +10,7 @@
 		    <td style="padding:5px"><%= comment.description %>
 		  </li>
 		  <li>
-		  	by 
-		    <%= comment.username %>
+		  	by <%= comment.username %>
 		    <span class="commentOptions" >
 			    <% if comment.logged_in_as_author(session[:user_id])%>
 			      <%= link_to 'Edit', edit_comment_path(comment.id) %>
