@@ -68,12 +68,14 @@ class CommentsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
   
   def logged_in_as_author
     comment = Comment.find(params[:id])
     @topic = comment.topic
     unless comment.logged_in_as_author(session[:user_id])
-      redirect_to(view_comments_topic_path(@topic))
+      redirect_to(topic_path(@topic))
     end
   end
 end

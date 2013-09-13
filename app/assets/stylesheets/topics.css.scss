@@ -21,8 +21,14 @@ table {
 .pagination {
   margin-top: 1em;
   color: black;
-  a:link, a:visited, a:hover, a:active {
+  a:link, a:visited, a:active {
     color: black;
+  }
+
+  a:hover {
+    color: #000033;
+    border-color: #000033;
+    background-color: #999;
   }
 }
 
@@ -32,11 +38,6 @@ table {
   border: 1px solid black;
   padding: 0.2em 0.5em;
   background-color: #CCCCCC;
-  &:hover {
-    color: #000033;
-    border-color: #000033;
-    background-color: #999;
-  }
 
   &.current {
     background-color: #000033;

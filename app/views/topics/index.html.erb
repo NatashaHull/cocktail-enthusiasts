@@ -4,7 +4,11 @@
   <tr style="padding:5px; border-bottom:1px solid lightgrey;">
     <th style="padding:5px;"><em>Cocktail</em></th>
     <th class="tableBorder"><em>Creator</em></th>
-    <th colspan="2" class="tableBorder"><em>Popularity</em></th>
+    <% if session[:user_id] %>
+      <th colspan="2" class="tableBorder"><em>Popularity</em></th>
+    <% else %>
+      <th class="tableBorder"><em>Popularity</em></th>
+    <% end %>
     <th class="tableBorder"><em>Responses</em></th>
     <th></th>
     <th></th>
