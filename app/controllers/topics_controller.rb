@@ -111,7 +111,7 @@ class TopicsController < ApplicationController
   private
 
   def signed_in
-    flash[:error] = "You cannot create a new cocktail unless you are signed in"
+    flash[:error] = "You cannot create a new cocktail unless you are signed in."
     redirect_to topics_path unless session[:user_id]
   end
   

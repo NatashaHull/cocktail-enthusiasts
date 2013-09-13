@@ -23,6 +23,8 @@
 	<% end %>
 <% end %>
 
-<%= link_to 'Edit Cocktail', edit_topic_path(@topic) %> |
+<% if topic.logged_in_as_author(session[:user_id]) %>
+	<%= link_to 'Edit Cocktail', edit_topic_path(@topic) %> |
+<% end %>
 <%= link_to 'Back to Cocktails List', topics_path %> |
 <%= link_to 'New Comment', new_comment_topic_path(@topic) %>
