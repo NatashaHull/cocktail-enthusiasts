@@ -1,6 +1,7 @@
 class TopicsController < ApplicationController
   require 'will_paginate/array'
   before_filter :logged_in_as_author, :only => [:edit, :destroy]
+  before_filter :signed_in, :only => [:new, :edit, :create, :update, :destroy]
   
   # GET /topics
   # GET /topics.json
@@ -91,42 +92,6 @@ class TopicsController < ApplicationController
     end
   end
   
-  def view_comments
-    @topic = Topic.find(params[:id])
-    @comments = @topic.comments
-    
-    render 'comments/index'
-  end
-  
-  def new_comment
-    @topic = Topic.find(params[:id])
-    @comment = @topic.comments.build
-    
-    render 'comments/new'
-  end
-  
-  def create_comment
-     @comment = Comment.new(params[:comment])
-    @topic = @comment.topic
-
-    respond_to do |format|
-      if @comment.save
-        format.html { redirect_to @topic, notice: 'Comment was successfully created.' }
-        format.json { render json: @comment, status: :created, location: @comment }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-  
-  def logged_in_as_author
-    topic = Topic.find(params[:id])
-    unless topic.logged_in_as_author(session[:user_id])
-      redirect_to(topics_path)
-    end
-  end
-  
   def compare
     @topics = Topic.all.sort_by {|topic| topic.title.downcase}
     @ip = request.remote_ip
@@ -141,5 +106,19 @@ class TopicsController < ApplicationController
     cocktail_nums = params.select {|k,v| k.include? 'cocktail'}
     @topics = cocktail_nums.map {|k,v| Topic.find(k.split('.')[1].to_i) }
     @width_pct = 100. / cocktail_nums.count rescue nil
+  end
+
+  private
+
+  def signed_in
+    flash[:error] = "You cannot create a new cocktail unless you are signed in"
+    redirect_to topics_path unless session[:user_id]
+  end
+  
+  def logged_in_as_author
+    topic = Topic.find(params[:id])
+    unless topic.logged_in_as_author(session[:user_id])
+      redirect_to(topics_path)
+    end
   end
 end
