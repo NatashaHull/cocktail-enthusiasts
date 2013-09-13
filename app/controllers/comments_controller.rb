@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
   # GET /comments
   # GET /comments.json
   before_filter :logged_in_as_author, :only => [:edit, :destroy]
-
+  before_filter :signed_in, :only => [:new, :create]
   # GET /comments/new
   # GET /comments/new.json
   
@@ -71,6 +71,11 @@ class CommentsController < ApplicationController
 
   private
   
+  def signed_in
+    redirect_to topics_path unless session[:user_id]
+    flash[:error] = "You cannot comment on a cocktail unless you are signed in." unless session[:user_id]
+  end
+
   def logged_in_as_author
     comment = Comment.find(params[:id])
     @topic = comment.topic

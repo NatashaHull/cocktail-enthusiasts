@@ -18,6 +18,7 @@ class Comment < ActiveRecord::Base
    
    validates_presence_of :description
    validates_presence_of :topic_id
+   validates_presence_of :user_id
    
    def username
      user.name rescue ""

@@ -2,6 +2,7 @@ class TopicsController < ApplicationController
   require 'will_paginate/array'
   before_filter :logged_in_as_author, :only => [:edit, :destroy]
   before_filter :signed_in, :only => [:new, :edit, :create, :update, :destroy]
+  before_filter :signed_in_comments, :only => [:new_comment]
   
   # GET /topics
   # GET /topics.json
@@ -91,6 +92,13 @@ class TopicsController < ApplicationController
       format.json { head :no_content }
     end
   end
+    
+  def new_comment
+    @topic = Topic.find(params[:id])
+    @comment = @topic.comments.build
+    
+    render 'comments/new'
+  end
   
   def compare
     @topics = Topic.all.sort_by {|topic| topic.title.downcase}
@@ -111,8 +119,13 @@ class TopicsController < ApplicationController
   private
 
   def signed_in
-    flash[:error] = "You cannot create a new cocktail unless you are signed in."
     redirect_to topics_path unless session[:user_id]
+    flash[:error] = "You cannot create a new cocktail unless you are signed in." unless session[:user_id]
+  end
+
+  def signed_in_comments
+    redirect_to topics_path unless session[:user_id]
+    flash[:error] = "You cannot comment on a cocktail unless you are signed in." unless session[:user_id]
   end
   
   def logged_in_as_author
