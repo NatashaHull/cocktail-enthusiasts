@@ -1,10 +1,14 @@
 class TopicsController < ApplicationController
+  require 'will_paginate/array'
   before_filter :logged_in_as_author, :only => [:edit, :destroy]
   
   # GET /topics
   # GET /topics.json
   def index
     @topics = Topic.all.sort_by {|topic| topic.title.downcase}
+    @topics = @topics.paginate(:per_page => 10, 
+                              :page => params[:page], 
+                              :order => "created_at DESC")
     @ip = request.remote_ip
 
     respond_to do |format|

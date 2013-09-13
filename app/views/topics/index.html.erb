@@ -28,8 +28,11 @@
     </tr>
   <% end %>
 </table>
+<div id="paging">
+  <%= will_paginate @topics %>
+</div>
 
-<br />
+<br/>
 
 <%= link_to 'Add a New Cocktail', new_topic_path %> |
 <%= link_to 'Compare Cocktails', compare_topics_path %> |

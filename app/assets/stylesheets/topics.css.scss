@@ -9,7 +9,7 @@ table {
       padding-left: 5px;
     }
     &:hover {
-      background-color: lightgrey;
+      background-color: #CCCCCC;
       color: purple;
       a:link, a:visited, a:hover, a:active {
         color: purple;
@@ -18,14 +18,38 @@ table {
   }
 }
 
+#paging ul {
+  li {
+    list-style-type: none;
+    display: inline;
+    a {
+      color: black;
+      text-decoration: none;
+      border: 1px solid black;
+      padding: 0.2em 0.5em;
+      background-color: #CCCCCC;
+      &:hover {
+        color: #000033;
+        border-color: #000033;
+        background-color: #999;
+      }
+    }
+
+    &.active a {
+        background-color: #000033;
+        color: #999;
+    }
+  }
+}
+
 body {
   background-color: purple;
-  color: lightgrey;
+  color: #CCCCCC;
   text-shadow: 0px 1px 0px #000;
 }
 
 a:link, a:visited, a:hover, a:active {
-  color: lightgrey;
+  color: #CCCCCC;
   text-shadow: none;
 }
 
@@ -70,7 +94,7 @@ a:link, a:visited, a:hover, a:active {
   li {
     &:first-child {
       text-align: left;
-      font-size: 17px;
+      font-size: 14px;
     }
     
     &:last-child {
