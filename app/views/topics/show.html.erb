@@ -1,20 +1,31 @@
-<p id="notice"><%= notice %></p>
+<h1 style="color:turquoise;">  <%= @topic.title %></h1>
+<h2 style="color:lightgreen;"><em>  <%= @topic.username %></em></h2>
+<h3>  <%= simple_format @topic.description %> </h3>
 
-<p>
-  <strong><b>Cocktail:</b>
-  <span style="color:turquoise;"><%= @topic.title %></span></strong>
-</p>
+<% if @topic.comments.empty? %>
+	<h3>There are currently no comments on this cocktail.</h3>
+<% else %>
+	<h3><em>Comments</em></h3>
+	<% @topic.comments.each do |comment| %>
+		<ul class="comments">
+		  <li>
+		    <td style="padding:5px"><%= comment.description %>
+		  </li>
+		  <li>
+		  	by 
+		    <%= comment.username %>
+		    <span class="commentOptions" >
+			    <% if comment.logged_in_as_author(session[:user_id])%>
+			      <%= link_to 'Edit', edit_comment_path(comment.id) %>
+			    <% end %>
+			    <% delete_msg = comment.logged_in_as_author(session[:user_id]) ? 'Is your comment really that lame?' : "Nice try! You can't delete other peoples' comments." %> |
+			    <%= link_to 'Delete', comment, confirm: delete_msg, method: :delete %>
+			  </span>
+		  </li>
+		</ul>
+	<% end %>
+<% end %>
 
-<p>
-  <b>Creator:</b>
-  <%= @topic.username %>
-</p>
-
-<p>
-  <b><em>Recipe</em></b>
-  <%= simple_format @topic.description %>
-</p>
-
-<%= link_to 'Edit', edit_topic_path(@topic) %> |
-<%= link_to 'Back', topics_path %> |
-<%= link_to 'Comments', view_comments_topic_path(@topic)%>
+<%= link_to 'Edit Cocktail', edit_topic_path(@topic) %> |
+<%= link_to 'Back to Cocktails List', topics_path %> |
+<%= link_to 'New Comment', new_comment_topic_path(@topic) %>

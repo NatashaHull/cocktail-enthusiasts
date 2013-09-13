@@ -3,48 +3,71 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 table {
-    border-collapse: collapse;
+  border-collapse: collapse;
 }
 .commentDescriptionCol {
-    width: 800px;
+  width: 800px;
 }
 
 .commentTable1 {
-    border-collapse: collapse;
+  border-collapse: collapse;
 }
 .tableBorder {
-    padding:5px;
-    border-left:1px solid lightgrey
+  padding:5px;
+  border-left:1px solid lightgrey
 }
 .last {
-    padding:5px;
-    border-left:1px solid lightgrey;
+  padding:5px;
+  border-left:1px solid lightgrey;
 }
+
 body {
-    background-color: purple;
-    color: lightgrey;
-    text-shadow: 0px 1px 0px #000;
+  background-color: purple;
+  color: lightgrey;
+  text-shadow: 0px 1px 0px #000;
 }
 
 a:link, a:visited, a:hover, a:active {
-    color: lightgrey;
-    text-shadow: none;
+  color: lightgrey;
+  text-shadow: none;
 }
 
 #compareButton {
-    text-align: center;
+  text-align: center;
 }
+
 #compareTable{
-    width: 100%;
-}
-#compareTable td {
+  width: 100%;
+  td {
     border-right: 1px solid white;
     padding: 10px;
     vertical-align: top;
+    &:last-child {
+      border: 0;
+    }
+  }
 }
-#compareTable td:last-child {
-    border: 0;
-}
+
 #compareSelectTable {
-    margin: 0 auto;
+  margin: 0 auto;
+}
+
+.comments {
+  list-style-type: none;
+  padding: 5px;
+  width: 22em;
+  
+  li {
+    &:first-child {
+      text-align: left;
+      font-size: 18px;
+    }
+    
+    &:last-child {
+      margin-left: 5em;
+      .commentOptions {
+        padding-left: 10px;
+      }
+    }
+  }
 }

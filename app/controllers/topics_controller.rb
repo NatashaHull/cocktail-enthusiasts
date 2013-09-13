@@ -17,7 +17,6 @@ class TopicsController < ApplicationController
   # GET /topics/1.json
   def show
     @topic = Topic.find(params[:id])
-    @comment = @topic.comments.build
 
     respond_to do |format|
       format.html # show.html.erb
