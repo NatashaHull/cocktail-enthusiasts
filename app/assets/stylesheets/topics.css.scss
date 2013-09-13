@@ -38,9 +38,10 @@ table {
     background-color: #999;
   }
 
-  &.active {
+  &.current {
     background-color: #000033;
     color: #999;
+    font-style: normal;
   }
 }
 
