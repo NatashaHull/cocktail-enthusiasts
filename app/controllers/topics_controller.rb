@@ -6,7 +6,7 @@ class TopicsController < ApplicationController
   # GET /topics.json
   def index
     @topics = Topic.all.sort_by {|topic| topic.title.downcase}
-    @topics = @topics.paginate(:per_page => 10, 
+    @topics = @topics.paginate(:per_page => 25, 
                               :page => params[:page], 
                               :order => "created_at DESC")
     @ip = request.remote_ip
