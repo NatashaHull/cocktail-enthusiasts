@@ -17,8 +17,8 @@ class Comment < ActiveRecord::Base
    belongs_to :user
    
    validates_presence_of :description
-   validates_presence_of :topic_id
-   validates_presence_of :user_id
+   validates_presence_of :topic, dependent: :destroy
+   validates_presence_of :user, dependent: :destroy
    
    def username
      user.name rescue ""

@@ -19,7 +19,7 @@ class Topic < ActiveRecord::Base
 
   validates_presence_of :title
   validates_presence_of :description
-  validates_presence_of :user
+  validates_presence_of :user, dependent: :destroy
 
   def username
     user.name rescue ""
