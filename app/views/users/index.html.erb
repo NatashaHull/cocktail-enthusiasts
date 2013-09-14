@@ -1,0 +1,31 @@
+<h1>Cocktail Enthusiast Users</h1>
+
+<table>
+  <tr style="padding:5px; border-bottom:1px solid lightgrey;">
+    <th style="padding:5px;"><em>User</em></th>
+    <th class="tableBorder"><em>Cocktails</em></th>
+    <th class="tableBorder"><em>Comments</em></th>
+    <th class="tableBorder"><em>Votes</em></th>
+  </tr>
+
+  <% @users.each do |user| %>
+    <tr class="topic" >
+      <td class="tableBorder"><%= link_to user.name, user %></td>
+      <td class="tableBorder"><%= pluralize(user.topics.length, "Cocktail") %></td>
+      <td class="tableBorder"><%= pluralize(user.comments.length, "Comment") %></td>
+      <td class="tableBorder"><%= pluralize(user.votes.count, "Vote") %></td>
+    </tr>
+  <% end %>
+</table>
+
+<div id="paging">
+  <%= will_paginate @topics %>
+</div>
+
+<br/>
+
+<% if session[:user_id] %>
+  <%= link_to 'View Your Profile', user_path(session[:user_id]) %> |
+<% end %>
+
+<%= link_to 'View Cocktails', topics_path %>

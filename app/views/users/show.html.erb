@@ -1,79 +1,88 @@
 <h1 class="showTitle">Cocktail Enthusiasts</h1>
-<h2 class="showName">Posts by <%= @user.name.capitalize %></h2>
+<h2 class="showPosts">Posts by <%= @user.name.capitalize %></h2>
 
-<h2 class="showName">Cocktails</h2>
+<% if @user.topics.empty? %>
+  <h2 class="showName"><%= @user.name %> has not yet added any cocktails.</h2>
+<% else %>
+  <h2 class="showName">Cocktails</h2>
 
-<table>
-  <tr style="padding:5px; border-bottom:1px solid lightgrey;">
-    <th style="padding:5px;"><em>Cocktail</em></th>
-    <% if session[:user_id] %>
-      <th colspan="2" class="tableBorder"><em>Popularity</em></th>
-    <% else %>
-      <th class="tableBorder"><em>Popularity</em></th>
-    <% end %>
-    <th class="tableBorder"><em>Responses</em></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-  <% @topics.each do |topic| %>
-    <tr class="topic" >
-      <td class="tableBorder"><%= link_to topic.title, topic %></td>
-      <td class="tableBorder"><%= pluralize(topic.votes.length, "vote") %></td>
+  <table>
+    <tr style="padding:5px; border-bottom:1px solid lightgrey;">
+      <th style="padding:5px;"><em>Cocktail</em></th>
       <% if session[:user_id] %>
-        <% if topic.votes_by_user_id(session[:user_id]).empty? %>
-          <td><%= button_to '+1', votes_path(topic_id: topic.id), method: :post %></td>
-        <% else %>
-          <td><%= button_to '-1', subtract_votes_path(topic_id: topic.id), method: :post %></td>
-        <% end %>
+        <th colspan="2" class="tableBorder"><em>Popularity</em></th>
+      <% else %>
+        <th class="tableBorder"><em>Popularity</em></th>
       <% end %>
-      <td class="tableBorder"><%= pluralize(topic.comments.count, "comment") %></td>
-      <% delete_msg = topic.logged_in_as_author(session[:user_id]) ? 'Are you seriously gonna delete this awesome recipe?' : "Nice try! You can't delete other peoples' posts." %>
-      <td class="tableBorder"><%= link_to 'Delete', topic, confirm: delete_msg, method: :delete %></td>
+      <th class="tableBorder"><em>Responses</em></th>
+      <th></th>
+      <th></th>
     </tr>
-  <% end %>
-</table>
 
-<br/>
-
-<h2 class="showName">Comments</h2>
-
-<table>
-  <tr style="padding:5px; border-bottom:1px solid lightgrey;">
-    <th style="padding:5px;"><em>Cocktail</em></th>
-    <th class="tableBorder"><em>Creator</em></th>
-    <% if session[:user_id] %>
-      <th colspan="2" class="tableBorder"><em>Popularity</em></th>
-    <% else %>
-      <th class="tableBorder"><em>Popularity</em></th>
+    <% @topics.each do |topic| %>
+      <tr class="topic" >
+        <td class="tableBorder"><%= link_to topic.title, topic %></td>
+        <td class="tableBorder"><%= pluralize(topic.votes.length, "vote") %></td>
+        <% if session[:user_id] %>
+          <% if topic.votes_by_user_id(session[:user_id]).empty? %>
+            <td><%= button_to '+1', votes_path(topic_id: topic.id), method: :post %></td>
+          <% else %>
+            <td><%= button_to '-1', subtract_votes_path(topic_id: topic.id), method: :post %></td>
+          <% end %>
+        <% end %>
+        <td class="tableBorder"><%= pluralize(topic.comments.count, "comment") %></td>
+        <% delete_msg = topic.logged_in_as_author(session[:user_id]) ? 'Are you seriously gonna delete this awesome recipe?' : "Nice try! You can't delete other peoples' posts." %>
+        <td class="tableBorder"><%= link_to 'Delete', topic, confirm: delete_msg, method: :delete %></td>
+      </tr>
     <% end %>
-    <th class="tableBorder"><em>Responses</em></th>
-    <th></th>
-    <th></th>
-  </tr>
+  </table>
+  
+  <br/>
+<% end %>
 
-  <% @comments.each do |comment| %>
-    <tr class="topic" >
-      <td class="tableBorder"><%= link_to comment.topic.title, comment.topic %></td>
-      <td class="tableBorder"><%= comment.topic.username%></td>
-      <td class="tableBorder"><%= pluralize(comment.topic.votes.length, "vote") %></td>
+<% if @user.comments.empty? %>
+  <h2 class="showName"><%= @user.name %> has made no comments.</h2>
+<% else %>
+  <h2 class="showName">Comments</h2>
+
+  <table>
+    <tr style="padding:5px; border-bottom:1px solid lightgrey;">
+      <th style="padding:5px;"><em>Cocktail</em></th>
+      <th class="tableBorder"><em>Creator</em></th>
       <% if session[:user_id] %>
-        <% if comment.topic.votes_by_user_id(session[:user_id]).empty? %>
-          <td><%= button_to '+1', votes_path(topic_id: comment.topic.id), method: :post %></td>
-        <% else %>
-          <td><%= button_to '-1', subtract_votes_path(topic_id: comment.topic.id), method: :post %></td>
-        <% end %>
+        <th colspan="2" class="tableBorder"><em>Popularity</em></th>
+      <% else %>
+        <th class="tableBorder"><em>Popularity</em></th>
       <% end %>
-      <td class="tableBorder"><%= pluralize(comment.topic.comments.count, "comment") %></td>
-      <% delete_msg = comment.topic.logged_in_as_author(session[:user_id]) ? 'Are you seriously gonna delete this awesome recipe?' : "Nice try! You can't delete other peoples' posts." %>
-      <td class="tableBorder"><%= link_to 'Delete', comment.topic, confirm: delete_msg, method: :delete %></td>
+      <th class="tableBorder"><em>Responses</em></th>
+      <th></th>
+      <th></th>
     </tr>
-  <% end %>
-</table>
+
+    <% @comments.each do |comment| %>
+      <tr class="topic" >
+        <td class="tableBorder"><%= link_to comment.topic.title, comment.topic %></td>
+        <td class="tableBorder"><%= comment.topic.username%></td>
+        <td class="tableBorder"><%= pluralize(comment.topic.votes.length, "vote") %></td>
+        <% if session[:user_id] %>
+          <% if comment.topic.votes_by_user_id(session[:user_id]).empty? %>
+            <td><%= button_to '+1', votes_path(topic_id: comment.topic.id), method: :post %></td>
+          <% else %>
+            <td><%= button_to '-1', subtract_votes_path(topic_id: comment.topic.id), method: :post %></td>
+          <% end %>
+        <% end %>
+        <td class="tableBorder"><%= pluralize(comment.topic.comments.count, "comment") %></td>
+        <% delete_msg = comment.topic.logged_in_as_author(session[:user_id]) ? 'Are you seriously gonna delete this awesome recipe?' : "Nice try! You can't delete other peoples' posts." %>
+        <td class="tableBorder"><%= link_to 'Delete', comment.topic, confirm: delete_msg, method: :delete %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
 
 <br/>
 
 <%= link_to 'View all cocktails', topics_path %> |
+<%= link_to 'View all cocktail enthusiasts', users_path %> |
 <%= link_to 'Add a New Cocktail', new_topic_path %> |
 <%= link_to 'Compare Cocktails', compare_topics_path %> |
 <%= link_to 'Design Your Own Cocktail', design_index_path, confirm: "Are you sure you want to try creating your own cocktail?  This is a new and highly experimental resource of this website and is not guaranteed to work out with something that tastes good!\nNote: Because of the experimental nature of this option, you will not be able to save your cocktail from the design page.  In case you end up liking the cocktail enough to add it to the website, the 'Design a New Cocktail' option will open in a new window.", :target => "_blank" %>
