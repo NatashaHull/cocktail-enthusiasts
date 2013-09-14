@@ -37,7 +37,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @topics = @user.topics.sort_by { |topic| topic.title.downcase }
-    @comments = @user.comments.sort_by { |comment| comment.topic.title.downcase }
+    @comments = @user.comments.select {|comment| comment.topic }
+                              .sort_by { |comment| comment.topic.title.downcase }
   end
 
   def login
