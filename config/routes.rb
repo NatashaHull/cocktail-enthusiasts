@@ -1,9 +1,10 @@
 Suggestotron::Application.routes.draw do
-  get "site/home"
+  root :to => 'site#home'
 
   resources :comments
   resources :users
 
+  get "site/home"
   get "signup" => 'users#new'
   get "design/index"
 
@@ -25,10 +26,7 @@ Suggestotron::Application.routes.draw do
     end
   end
 
-  root :to => 'site#home'
-
-  post "login" => 'users#login'
-  
+  post "login" => 'users#login'  
   post "logout" => 'users#logout'
   
   # The priority is based upon order of creation:

@@ -12,6 +12,7 @@
  *= require topics
  *= require comments
  *= require design
+ *= require users
 */
 
 .alert-error {

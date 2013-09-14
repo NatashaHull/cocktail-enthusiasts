@@ -30,6 +30,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    @user = User.find(params[:id])
+    @topics = @user.topics.sort_by { |topic| topic.title.downcase }
+    @comments = @user.comments.sort_by { |comment| comment.topic.title.downcase }
+  end
+
   def login
     user = User.find_by_name(params[:name][:name])
     if user && user.authenticate(params[:password][:password])
