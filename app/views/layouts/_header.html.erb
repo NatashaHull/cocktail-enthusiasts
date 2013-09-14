@@ -6,8 +6,14 @@
     </p>
   <% end %>
 <% else %>
-  <%= form_tag '/login' do %>
-    <p>Log in as: <%= text_field :name, :name %> <%= submit_tag 'Log in' %></p>
+  <%= form_tag(login_path, method: :post) do %>
+    <p>Log in as: 
+    	<%= text_field :name, :name %> 
+    	<%= password_field :password, :password %>
+    	<%= submit_tag 'Log in' %>
+    	Don't have a user account?
+    	Sign up <%= link_to 'here', signup_path %>
+    </p>
   <% end %>
 <% end %>
 <hr>

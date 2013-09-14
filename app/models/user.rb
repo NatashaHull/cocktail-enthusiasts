@@ -9,7 +9,7 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :name, :topics, :votes, :comments
+  attr_accessible :name, :topics, :votes, :comments, :password, :password_confirmation
   
   has_many :topics
   has_many :votes

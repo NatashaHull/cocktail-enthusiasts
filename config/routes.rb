@@ -2,7 +2,9 @@ Suggestotron::Application.routes.draw do
   get "site/home"
 
   resources :comments
+  resources :users
 
+  get "signup" => 'users#new'
   get "design/index"
 
   resources :votes, :only => [:create] do
