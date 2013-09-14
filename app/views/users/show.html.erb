@@ -77,6 +77,46 @@
       </tr>
     <% end %>
   </table>
+  <br />
+<% end %>
+
+
+<% if !@user.votes.empty? && session[:user_id] == @user.id %>
+  <h2 class="showName">Upvoted Cocktails</h2>
+
+  <table>
+    <tr style="padding:5px; border-bottom:1px solid lightgrey;">
+      <th style="padding:5px;"><em>Cocktail</em></th>
+      <th class="tableBorder"><em>Creator</em></th>
+      <% if session[:user_id] %>
+        <th colspan="2" class="tableBorder"><em>Popularity</em></th>
+      <% else %>
+        <th class="tableBorder"><em>Popularity</em></th>
+      <% end %>
+      <th class="tableBorder"><em>Responses</em></th>
+      <th></th>
+      <th></th>
+    </tr>
+
+    <% @votes.each do |vote| %>
+      <% topic = Topic.find(vote.topic_id) %>
+      <tr class="topic" >
+        <td class="tableBorder"><%= link_to topic.title, topic %></td>
+        <td class="tableBorder"><%= topic.username%></td>
+        <td class="tableBorder"><%= pluralize(topic.votes.length, "vote") %></td>
+        <% if session[:user_id] %>
+          <% if topic.votes_by_user_id(session[:user_id]).empty? %>
+            <td><%= button_to '+1', votes_path(topic_id: topic.id), method: :post %></td>
+          <% else %>
+            <td><%= button_to '-1', subtract_votes_path(topic_id: topic.id), method: :post %></td>
+          <% end %>
+        <% end %>
+        <td class="tableBorder"><%= pluralize(topic.comments.count, "comment") %></td>
+        <% delete_msg = topic.logged_in_as_author(session[:user_id]) ? 'Are you seriously gonna delete this awesome recipe?' : "Nice try! You can't delete other peoples' posts." %>
+        <td class="tableBorder"><%= link_to 'Delete', topic, confirm: delete_msg, method: :delete %></td>
+      </tr>
+    <% end %>
+  </table>
 <% end %>
 
 <br/>
