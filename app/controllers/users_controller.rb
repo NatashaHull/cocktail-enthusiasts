@@ -39,7 +39,8 @@ class UsersController < ApplicationController
     @topics = @user.topics.sort_by { |topic| topic.title.downcase }
     @comments = @user.comments.select {|comment| comment.topic }
                               .sort_by { |comment| comment.topic.title.downcase }
-    @votes = @user.votes.sort_by { |vote| Topic.find(vote.topic_id).title.downcase }
+    @votes = @user.votes.select {|comment| comment.topic }
+                              .sort_by { |vote| Topic.find(vote.topic_id).title.downcase }
   end
 
   def login
