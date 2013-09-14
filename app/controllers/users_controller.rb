@@ -20,7 +20,10 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if @user && @user.authenticate(params[:user][:old_password]) && params[:user][:password] == params[:user][:password_confirmation]
       @user.update_attributes(name: @user.name, password: params[:user][:password], password_confirmation: params[:user][:password_confirmation])
-      redirect_to topics_path
+      respond_to do |format|
+        format.html { redirect_to topics_path, notice: 'Your password was successfully changed.' }
+        format.json { head :no_content }
+      end
     else
       flash[:error] = "The user information you submitted is invalid."
       render 'edit'
