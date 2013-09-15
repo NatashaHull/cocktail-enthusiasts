@@ -17,7 +17,7 @@
   <% @topics.each do |topic| %>
     <tr class="topic" >
       <td class="tableBorder"><%= link_to topic.title, topic %></td>
-      <td class="tableBorder"><%= topic.username%></td>
+      <td class="tableBorder"><%= link_to topic.username, topic.user %></td>
       <td class="tableBorder"><%= pluralize(topic.votes.length, "vote") %></td>
       <% if session[:user_id] %>
         <% if topic.votes_by_user_id(session[:user_id]).empty? %>
