@@ -13,6 +13,7 @@
  *= require comments
  *= require design
  *= require users
+ *= require jquery.ui.tabs
 */
 
 .alert-error {
