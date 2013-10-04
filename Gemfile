@@ -28,6 +28,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'annotate'
 gem 'will_paginate', '~> 3.0.4'
 gem 'bcrypt-ruby', '~> 3.0.0'
